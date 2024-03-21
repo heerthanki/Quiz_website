@@ -1,0 +1,49 @@
+.add-test-container {
+    width: 80%; /* Adjust width as needed */
+    margin: 0 auto;
+    padding: 20px;
+
+    border-radius: 5px;
+  }
+  
+  .add-test-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .add-test-container label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .add-test-container input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-test-container button {
+    display: block;
+    width: 10%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-test-container button:hover {
+    background-color: #89cb8b;
+  }
+  @media screen and (max-width: 900px) {
+    .add-test-container input[type="number"],
+    .add-test-container button {
+       
+      width:100%; /* Set width to auto when screen size is small */
+    }
+  }
+  
+  
