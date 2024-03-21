@@ -14,7 +14,6 @@ const Submissions = () => {
       <table>
         <thead>
           <tr>
-            <th>Student Name</th>
             <th>Marks</th>
             <th>Remarks</th>
           </tr>

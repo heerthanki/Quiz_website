@@ -1,52 +1,52 @@
 import React, { useState } from 'react';
-import './AddQuestions.css'; 
+import './AddQuestions.css';
 
 const AddQuestions = () => {
   const [question, setQuestion] = useState('');
-  const [answers, setAnswers] = useState(['', '', '', '']); 
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1); 
+  const [answers, setAnswers] = useState(['', '', '', '']);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
+  const [level, setLevel] = useState(''); // State for level selection
+  const [course, setCourse] = useState(''); // State for course selection
 
   const handleAnswerChange = (index, value) => {
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
-  }; //set options
+  };
 
   const handleSubmit = () => {
-    if (question.trim() === '') {
-      window.alert('Question is missing');
-      return;
-    }
-    if (answers.some(answer => answer.trim() === '')) {
-      window.alert('Options are missing');
-      return;
-    }
-
-    const uniqueOptions = [...new Set(answers)];
-    if (uniqueOptions.length !== answers.length) {
-      window.alert('Options must be unique');
-      return;
-    }
-
-    if (correctAnswerIndex === -1) {
-      window.alert('Please select the correct answer');
-      return;
-    }
-
-    const data = {
-      question: question,
-      answers: answers,
-      correctAnswerIndex: correctAnswerIndex
-    };
-    console.log(data); 
-    setQuestion('');
-    setAnswers(['', '', '', '']);
-    setCorrectAnswerIndex(-1);
+    // Validation logic
+    // ...
   };
-  
+
   return (
     <div className="add-questions-container">
       <h2>Add Question Bank</h2>
+      <div className="level-selection">
+        <label>Select Level:</label>
+        <div>
+          <input type="radio" id="easy" name="level" value="Easy" checked={level === 'Easy'} onChange={() => setLevel('Easy')} />
+          <label htmlFor="easy">Easy</label>
+        </div>
+        <div>
+          <input type="radio" id="medium" name="level" value="Medium" checked={level === 'Medium'} onChange={() => setLevel('Medium')} />
+          <label htmlFor="medium">Medium</label>
+        </div>
+        <div>
+          <input type="radio" id="hard" name="level" value="Hard" checked={level === 'Hard'} onChange={() => setLevel('Hard')} />
+          <label htmlFor="hard">Hard</label>
+        </div>
+      </div>
+      <div className="course-selection">
+        <label>Select Course:</label>
+        <select value={course} onChange={(e) => setCourse(e.target.value)}>
+          <option value="">Select Course</option>
+          <option value="MERN Stack">MERN Stack</option>
+          <option value="MEAN Stack">MEAN Stack</option>
+          <option value="MAD">MAD</option>
+          {/* Add more options as needed */}
+        </select>
+      </div>
       <label>
         Question:
         <input type="text" value={question} onChange={(e) => setQuestion(e.target.value)} />

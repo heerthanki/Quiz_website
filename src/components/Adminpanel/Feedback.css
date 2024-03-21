@@ -22,15 +22,17 @@
     display: block;
     width: 10%; /* Set initial width to 100% */
     padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #cccccc89;
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
   
   .feedback-container button:hover {
-    background-color: #89cb8b;
+    background-color: black;
+    transition: 1s ;
+    color:white;
   }
   
   /* Media Query for adjusting textarea and button width */
