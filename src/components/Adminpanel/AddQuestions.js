@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './AddQuestions.css';
-
+import { Link } from 'react-router-dom';
 const AddQuestions = () => {
   const [question, setQuestion] = useState('');
   const [answers, setAnswers] = useState(['', '', '', '']);
@@ -20,8 +20,13 @@ const AddQuestions = () => {
   };
 
   return (
-    <div className="add-questions-container">
+    <div>
+    <nav className="navbar">
+      <Link to="/adminpanel" className="back-arrow">&#8592;</Link>
       <h2>Add Question Bank</h2>
+    </nav><br></br>
+    <div className="add-questions-container">
+      
       <div className="level-selection">
         <label>Select Level:</label>
         <div>
@@ -74,6 +79,7 @@ const AddQuestions = () => {
         </select>
       </label>
       <button onClick={handleSubmit}>Submit</button>
+    </div>
     </div>
   );
 };

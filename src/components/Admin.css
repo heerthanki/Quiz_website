@@ -59,4 +59,10 @@
     color: white;
     margin-right: 5px; /* Adjust as needed */
   }
+
+  .link {
+    text-decoration: none;
+    color: rgb(17, 16, 16);
+  }
+  
   

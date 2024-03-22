@@ -16,18 +16,18 @@ const AdminPanel = () => {
       </div>
       <br />
       <div className="admin-card-container">
-        <div className="admin-card" role="button" tabIndex={0}>
-          <Link to="/Adminpanel/addquestions">Add Questions</Link>
-        </div>
-        <div className="admin-card" role="button" tabIndex={0}>
-          <Link to="/Adminpanel/addtest">Add Test</Link>
-        </div>
-        <div className="admin-card" role="button" tabIndex={0}>
-          <Link to="/Adminpanel/feedback">Feedback Form</Link>
-        </div>
-        <div className="admin-card" role="button" tabIndex={0}>
-          <Link to="/Adminpanel/submissions">Submissions</Link>
-        </div>
+        <Link to="/Adminpanel/addquestions" className="admin-card link" role="button" tabIndex={0}>
+          Add Questions
+        </Link>
+        <Link to="/Adminpanel/addtest" className="admin-card link" role="button" tabIndex={0}>
+          Add Test
+        </Link>
+        <Link to="/Adminpanel/feedback" className="admin-card link" role="button" tabIndex={0}>
+          Feedback Form
+        </Link>
+        <Link to="/Adminpanel/submissions" className="admin-card link" role="button" tabIndex={0}>
+          Submissions
+        </Link>
       </div>
     </div>
   );

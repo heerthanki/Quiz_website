@@ -2,27 +2,50 @@ import React, { useState, useEffect } from 'react';
 import './Profile.css'; // Import CSS file
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState({
-    name: '',
-    dob: '',
-    designation: '',
-    collegeId: '',
-    phoneNumber: ''
-  });
+  const initialProfileData = {
+    name: 'Kartik Ajwal',
+    dob: '1990-01-01',
+    designation: 'Teacher',
+    collegeId: '123456',
+    phoneNumber: '123-456-7890',
+    email: 'kartik@example.com'
+  };
+
+  const [profileData, setProfileData] = useState(initialProfileData);
   const [editMode, setEditMode] = useState(false);
+  const [editableProfileData, setEditableProfileData] = useState({
+    phoneNumber: '',
+    email: ''
+  });
 
   useEffect(() => {
-    // Fetch teacher profile data from backend
-    // Update state with fetched data
-  }, []);
+    setEditableProfileData({
+      phoneNumber: profileData.phoneNumber,
+      email: profileData.email
+    });
+  }, [profileData]);
 
   const handleChange = (e) => {
-    setProfileData({ ...profileData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setEditableProfileData({ ...editableProfileData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle profile update logic, send data to backend
+    setProfileData({
+      ...profileData,
+      phoneNumber: editableProfileData.phoneNumber,
+      email: editableProfileData.email
+    });
+    setEditMode(false);
+  };
+
+  const handleCancel = () => {
+    setEditableProfileData({
+      phoneNumber: profileData.phoneNumber,
+      email: profileData.email
+    });
+    setEditMode(false);
   };
 
   const calculateAge = (dob) => {
@@ -43,24 +66,55 @@ const Profile = () => {
         <form onSubmit={handleSubmit}>
           <label>
             Name:
-            <input type="text" name="name" value={profileData.name} onChange={handleChange} />
+            <input
+              type="text"
+              name="name"
+              value={profileData.name}
+              disabled // Disable the input field
+            />
           </label>
           <label>
             Date of Birth:
-            <input type="date" name="dob" value={profileData.dob} onChange={handleChange} />
+            <input
+              type="text"
+              value={profileData.dob}
+              disabled // Disable the input field
+            />
           </label>
           <label>
             Designation:
-            <input type="text" name="designation" value={profileData.designation} onChange={handleChange} />
+            <input
+              type="text"
+              value={profileData.designation}
+              disabled // Disable the input field
+            />
           </label>
-          <label>
-            College ID:
-            <input type="text" name="collegeId" value={profileData.collegeId} onChange={handleChange} />
-          </label>
+          <label className="college-id">
+  College ID:
+  <input
+    type="text"
+    value={profileData.collegeId}
+    disabled // Disable the input field
+  />
+</label>
           <label>
             Phone Number:
-            <input type="text" name="phoneNumber" value={profileData.phoneNumber} onChange={handleChange} />
+            <input
+              type="text"
+              name="phoneNumber"
+              value={editableProfileData.phoneNumber}
+              onChange={handleChange}
+            />
           </label>
+          <label className="email">
+  Email:
+  <input
+    type="email"
+    name="email"
+    value={editableProfileData.email}
+    onChange={handleChange}
+  />
+</label>
           <button type="submit">Save</button>
         </form>
       ) : (
@@ -71,9 +125,13 @@ const Profile = () => {
           <p>Designation: {profileData.designation}</p>
           <p>College ID: {profileData.collegeId}</p>
           <p>Phone Number: {profileData.phoneNumber}</p>
+          <p>Email: {profileData.email}</p>
         </div>
       )}
-      <button onClick={() => setEditMode(!editMode)}>{editMode ? 'Cancel' : 'Edit'}</button>
+      {!editMode && <button onClick={() => setEditMode(true)}>Edit</button>}
+      {editMode && (
+        <button type="button" onClick={handleCancel}>Cancel</button>
+      )}
     </div>
   );
 };

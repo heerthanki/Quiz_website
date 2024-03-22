@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Add_test.css'; // Import CSS file
-
+import { Link } from 'react-router-dom';
 const Add_test = () => {
   const [easyCount, setEasyCount] = useState(0);
   const [mediumCount, setMediumCount] = useState(0);
@@ -11,6 +11,11 @@ const Add_test = () => {
   };
 
   return (
+    <div>
+      <nav className="navbar">
+        <Link to="/adminpanel" className="back-arrow">&#8592;</Link>
+        <h2>Add Test</h2>
+      </nav>
     <div className="add-test-container"> {/* Apply CSS class */}
       <h2>Select Questions</h2>
       <label>
@@ -26,6 +31,7 @@ const Add_test = () => {
         <input type="number" value={hardCount} min="0" onChange={(e) => setHardCount(e.target.value)} />
       </label>
       <button onClick={handleSubmit}>Submit</button>
+    </div>
     </div>
   );
 };
