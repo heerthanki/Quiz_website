@@ -6,8 +6,11 @@ import Profile from './components/Adminpanel/Profile';
 import Submissions from './components/Adminpanel/Submissions';
 import AddTest from './components/Adminpanel/Add_test';
 import LoginPanel from './components/loginpanel';
-import Admin from './components/Admin';
+import Admin from './components/Adminpanel/Admin';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Dashboard from './components/Studentpanel/Dashboard';
+import StuProfile from './components/Studentpanel/Profile'
+import ExamPage from './components/Studentpanel/ExamPage';
 
 const App = () => {
   return (
@@ -21,6 +24,9 @@ const App = () => {
                 <Route path="/Adminpanel/profile" element={<Profile />} />
                 <Route path="/Adminpanel/submissions" element={<Submissions />} />
                 <Route path="/Adminpanel/addtest" element={<AddTest />} />
+                <Route path="/Studentpanel/dashboard" element={<Dashboard />} />
+                <Route path="/Studentpanel/profile" element={<StuProfile />} />
+                <Route path="/Studentpanel/exampage" element={<ExamPage />} />
         </Routes>
       </div>
     </Router>

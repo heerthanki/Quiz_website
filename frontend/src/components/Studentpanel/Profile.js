@@ -3,12 +3,11 @@ import './Profile.css'; // Import CSS file
 import { Link } from 'react-router-dom'; 
 const Profile = () => {
   const initialProfileData = {
-    name: 'Jay Ajwal',
-    dob: '1990-01-01',
-    designation: 'Teacher',
-    collegeId: 'ut123',
+    name: 'Riya Thakker',
+    dob: '2004-04-29',
+    collegeId: '21IT166',
     phoneNumber: '+91-9106909162',
-    email: 'Madhav@gmail.com'
+    email: 'riya@gmail.com'
   };
 
   const [profileData, setProfileData] = useState(initialProfileData);
@@ -62,8 +61,8 @@ const Profile = () => {
   return (
     <div>
     <nav className="navbar">
-    <Link to="/adminpanel" className="back-arrow">&#8592;</Link>
-    <h2>Admin Profile</h2>
+    <Link to="/studentpanel/dashboard" className="back-arrow">&#8592;</Link>
+    <h2>Student Profile</h2>
   </nav>
   <br />
     <div className="profile-container">
@@ -86,14 +85,7 @@ const Profile = () => {
               disabled // Disable the input field
             />
           </label>
-          <label>
-            Designation:
-            <input
-              type="text"
-              value={profileData.designation}
-              disabled // Disable the input field
-            />
-          </label>
+          
           <label className="college-id">
   College ID:
   <input
@@ -127,7 +119,7 @@ const Profile = () => {
           <p>Name: {profileData.name}</p>
           <p>Date of Birth: {profileData.dob}</p>
           <p>Age: {profileData.dob && calculateAge(profileData.dob)}</p>
-          <p>Designation: {profileData.designation}</p>
+          
           <p>College ID: {profileData.collegeId}</p>
           <p>Phone Number: {profileData.phoneNumber}</p>
           <p>Email: {profileData.email}</p>

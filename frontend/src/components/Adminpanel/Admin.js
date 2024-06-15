@@ -9,7 +9,7 @@ const AdminPanel = () => {
       <div className="Nav-bar">
         <div className="profile">
           <Link to="/Adminpanel/profile">
-            <FaUser className="icon" />
+            { <FaUser className="icon" /> }
           </Link>
         </div>
         <div className="title">Admin Panel</div>

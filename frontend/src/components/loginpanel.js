@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './loginpanel.css'; // Import the CSS file
+import axios from 'axios';
+import './loginpanel.css';
 
-const LoginPanel = () => {
+const LoginPanel = ({ setAuthToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (username.startsWith('t')) {
-      navigate('/adminpanel');
-    } else if (username.startsWith('s')) {
-      navigate('/studentpanel');
-    } else {
-      setErrorMessage('Invalid username');
+    try {
+      const response = await axios.post('http://localhost:5000/login', {
+        username,
+        password
+      });
+      if (response.data.success) {
+
+        // Assuming your backend returns a user type field
+        const userType = response.data.userType;
+
+        // Navigate based on user type
+        if (userType === 'teacher') {
+          navigate('/adminpanel');
+        } else if (userType === 'student') {
+          navigate('/studentpanel/dashboard');
+        } else {
+          setErrorMessage('Invalid user type');
+        }
+      } else {
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('Error logging in');
     }
   };
 
