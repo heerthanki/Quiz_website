@@ -7,9 +7,9 @@ const Profile = () => {
     dob: '1990-01-01',
     designation: 'Teacher',
     collegeId: 'ut123',
-    phoneNumber: '+91-9106909162',
-    email: 'Madhav@gmail.com'
-  };
+      phoneNumber: '+91-9106909162',
+      email: 'Madhav@gmail.com'
+    };
 
   const [profileData, setProfileData] = useState(initialProfileData);
   const [editMode, setEditMode] = useState(false);

@@ -17,6 +17,7 @@
 
 .add-test-container input[type="number"],
 .add-test-container input[type="date"],
+.add-test-container input[type="time"],
 .add-test-container select {
   width: 100%;
   padding: 8px;

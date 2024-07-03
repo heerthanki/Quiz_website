@@ -16,11 +16,7 @@ const LoginPanel = ({ setAuthToken }) => {
         password
       });
       if (response.data.success) {
-
-        // Assuming your backend returns a user type field
         const userType = response.data.userType;
-
-        // Navigate based on user type
         if (userType === 'teacher') {
           navigate('/adminpanel');
         } else if (userType === 'student') {

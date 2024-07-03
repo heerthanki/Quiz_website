@@ -39,6 +39,13 @@ const Dashboard = () => {
     return currentDate > examDateTime;
   };
 
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    const formattedDate = date.toLocaleDateString('en-CA'); // YYYY-MM-DD format
+    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // HH:MM format
+    return `Date: ${formattedDate} Time: ${formattedTime}`;
+  };
+
   const handleStartExam = async (subjectCode, questionType) => {
     try {
       // Fetch a question from the backend based on subject code and question type
@@ -69,23 +76,31 @@ const Dashboard = () => {
       <div className="content">
         <div className="upcoming-exams">
           <h2>Upcoming Exams</h2>
-          {upcomingExams.map((exam) => (
-            <div className="exam-card" key={exam._id}>
-              <h3>Subject Code: {exam.subjectCode}</h3>
-              <p>Date: {exam.date}</p>
-              <button disabled={!isExamDatePassed(exam.date)}>Start</button>
-            </div>
-          ))}
+          {upcomingExams.length > 0 ? (
+            upcomingExams.map((exam) => (
+              <div className="exam-card" key={exam._id}>
+                <h3>Subject Code: {exam.subjectCode}</h3>
+                <p>{formatDateTime(exam.date)}</p>
+                <button disabled={!isExamDatePassed(exam.date)}>Start</button>
+              </div>
+            ))
+          ) : (
+            <p>No upcoming exams.</p>
+          )}
         </div>
         <div className="ongoing-exams">
           <h2>Ongoing Exams</h2>
-          {ongoingExams.map((exam) => (
-            <div className="exam-card" key={exam._id}>
-              <h3>Subject Code: {exam.subjectCode}</h3>
-              <p>Date: {exam.date}</p>
-              <button onClick={() => handleStartExam(exam.subjectCode, exam.easyCount, exam.mediumCount, exam.hardCount)}>Start</button>
-            </div>
-          ))}
+          {ongoingExams.length > 0 ? (
+            ongoingExams.map((exam) => (
+              <div className="exam-card" key={exam._id}>
+                <h3>Subject Code: {exam.subjectCode}</h3>
+                <p>{formatDateTime(exam.date)}</p>
+                <button onClick={() => handleStartExam(exam.subjectCode, exam.easyCount, exam.mediumCount, exam.hardCount)}>Start</button>
+              </div>
+            ))
+          ) : (
+            <p>No ongoing exams.</p>
+          )}
         </div>
       </div>
     </div>
