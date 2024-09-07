@@ -9,6 +9,7 @@ import LoginPanel from './components/loginpanel';
 import Admin from './components/Adminpanel/Admin';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Dashboard from './components/Studentpanel/Dashboard';
+<<<<<<< HEAD
 import StuProfile from './components/Studentpanel/Profile';
 import Exam from './components/Studentpanel/Exam';
 import { UserProvider } from './components/UserContext';
@@ -37,3 +38,30 @@ const App = () => {
 };
 
 export default App;
+=======
+import StuProfile from './components/Studentpanel/Profile'
+import ExamPage from './components/Studentpanel/ExamPage';
+
+const App = () => {
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LoginPanel />} />
+          <Route path="/Adminpanel" element={<Admin />} />
+          <Route path="/Adminpanel/addquestions" element={<AddQuestions />} /> 
+                <Route path="/Adminpanel/feedback" element={<FeedbackForm />} /> 
+                <Route path="/Adminpanel/profile" element={<Profile />} />
+                <Route path="/Adminpanel/submissions" element={<Submissions />} />
+                <Route path="/Adminpanel/addtest" element={<AddTest />} />
+                <Route path="/Studentpanel/dashboard" element={<Dashboard />} />
+                <Route path="/Studentpanel/profile" element={<StuProfile />} />
+                <Route path="/Studentpanel/exampage" element={<ExamPage />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f

@@ -15,24 +15,17 @@
   margin-bottom: 10px;
 }
 
-.add-test-container input[type="number"],
-.add-test-container input[type="date"],
-<<<<<<< HEAD
-=======
-.add-test-container input[type="time"],
->>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
-.add-test-container select {
+.add-test-container input[type="number"] {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* Added for consistent sizing with inputs */
 }
 
 .add-test-container button {
   display: block;
-  width: 15%;
+  width: 10%;
   padding: 10px;
   margin-top: 20px;
   background-color: #cccccc89;
@@ -49,7 +42,8 @@
 }
 
 @media screen and (max-width: 900px) {
-  .add-test-container input[type="number"] {
+  .add-test-container input[type="number"],
+  .add-test-container button {
     width: 100%;
   }
 }

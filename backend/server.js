@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+// server.js
+
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -67,7 +72,11 @@ const testSchema = new mongoose.Schema({
   subjectCode: {
     type: String,
     required: true,
+<<<<<<< HEAD
     enum: ['IT345', 'IT346', 'IT347', 'IT348']
+=======
+    enum: ['IT345', 'IT346', 'IT347', 'IT348'] // Assuming these are your subject codes
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
   },
   date: {
     type: Date,
@@ -130,6 +139,7 @@ const profileSchema = new mongoose.Schema({
 
 const Profile = mongoose.model('Profile', profileSchema);
 
+<<<<<<< HEAD
 // Define exam result schema
 const examResultSchema = new mongoose.Schema({
   username: {
@@ -190,6 +200,12 @@ app.post('/api/submit-exam', async (req, res) => {
 const predefinedSubjects = ['MAD', 'DevOps', 'CN', 'CRNS'];
 
 // Login Route (Updated)
+=======
+// Predefined subjects
+const predefinedSubjects = ['MAD', 'DevOps', 'CN', 'CRNS'];
+
+// Login Route
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -199,14 +215,26 @@ app.post('/login', async (req, res) => {
       return res.json({ success: false, message: 'User not found' });
     }
 
+<<<<<<< HEAD
+=======
+    // Check if passwords match
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     if (password !== user.password) {
       return res.json({ success: false, message: 'Invalid password' });
     }
 
+<<<<<<< HEAD
     if (user.userType === 'student') {
       res.json({ success: true, message: 'Login successful', userType: 'student', username: user.username });
     } else if (user.userType === 'teacher') {
       res.json({ success: true, message: 'Login successful', userType: 'teacher', username: user.username });
+=======
+    // Navigate based on user type
+    if (user.userType === 'student') {
+      res.json({ success: true, message: 'Login successful', userType: 'student' });
+    } else if (user.userType === 'teacher') {
+      res.json({ success: true, message: 'Login successful', userType: 'teacher' });
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     } else {
       res.json({ success: false, message: 'Invalid user type' });
     }
@@ -221,17 +249,30 @@ app.post('/addquestion', async (req, res) => {
   const { question, options, correctOptionIndex, questionType, subject, subjectCode } = req.body;
   console.log("Received request to add question:", req.body);
   try {
+<<<<<<< HEAD
+=======
+    // Check if subject is predefined
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     if (!predefinedSubjects.includes(subject)) {
       return res.status(400).json({ success: false, message: 'Invalid subject' });
     }
 
     const newQuestion = new Question({
+<<<<<<< HEAD
       question,
       options,
       correctOptionIndex,
       questionType,
       subject,
       subjectCode
+=======
+      question: question,
+      options: options,
+      correctOptionIndex: correctOptionIndex,
+      questionType: questionType,
+      subject: subject,
+      subjectCode: subjectCode
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     });
 
     await newQuestion.save();
@@ -247,14 +288,22 @@ app.post('/addtest', async (req, res) => {
   const { subjectCode, date, easyCount, mediumCount, hardCount } = req.body;
   console.log("Received request to add test:", req.body);
   try {
+<<<<<<< HEAD
     const newTest = new Test({
       subjectCode,
       date,
+=======
+    // Create a new Test document
+    const newTest = new Test({
+      subjectCode: subjectCode,
+      date: date,
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
       EasyCount: easyCount,
       MediumCount: mediumCount,
       HardCount: hardCount
     });
 
+<<<<<<< HEAD
     const today = new Date();
     const selectedDate = new Date(date);
     if (selectedDate.toDateString() === today.toDateString()) {
@@ -263,6 +312,20 @@ app.post('/addtest', async (req, res) => {
       newTest.status = "Upcoming";
     }
 
+=======
+    // Check if the selected date is today or in the future
+    const today = new Date();
+    const selectedDate = new Date(date);
+    if (selectedDate.toDateString() === today.toDateString()) {
+      // If the selected date is today, set the test status to "Ongoing"
+      newTest.status = "Ongoing";
+    } else {
+      // If the selected date is in the future, set the test status to "Upcoming"
+      newTest.status = "Upcoming";
+    }
+
+    // Save the new test to the database
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     await newTest.save();
     res.json({ success: true, message: 'Test added successfully' });
   } catch (error) {
@@ -274,7 +337,11 @@ app.post('/addtest', async (req, res) => {
 // Fetch upcoming exams route
 app.get('/tests/Upcoming', async (req, res) => {
   try {
+<<<<<<< HEAD
     const upcomingExams = await Test.find({ status: 'Upcoming' }).select('subjectCode date');
+=======
+    const upcomingExams = await Test.find({ status: 'Upcoming' }).select(' subjectCode date');
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     res.json(upcomingExams);
   } catch (error) {
     console.error('Error fetching upcoming exams:', error);
@@ -285,7 +352,11 @@ app.get('/tests/Upcoming', async (req, res) => {
 // Fetch ongoing exams route
 app.get('/tests/Ongoing', async (req, res) => {
   try {
+<<<<<<< HEAD
     const ongoingExams = await Test.find({ status: 'Ongoing' }).select('subjectCode date');
+=======
+    const ongoingExams = await Test.find({ status: 'Ongoing' }).select(' subjectCode date');
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     res.json(ongoingExams);
   } catch (error) {
     console.error('Error fetching ongoing exams:', error);
@@ -293,6 +364,7 @@ app.get('/tests/Ongoing', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // Fetch test details by subject code
 app.get('/tests/:subjectCode', async (req, res) => {
   const { subjectCode } = req.params;
@@ -326,6 +398,20 @@ app.get('/questions/:subjectCode', async (req, res) => {
     const mediumQuestions = await Question.find({ subjectCode, questionType: 'medium' }).limit(MediumCount);
     const hardQuestions = await Question.find({ subjectCode, questionType: 'hard' }).limit(HardCount);
 
+=======
+// Fetch questions route
+app.get('/questions/:subjectCode', async (req, res) => {
+  const { subjectCode } = req.params;
+  const { easyCount, mediumCount, hardCount } = req.query; // Extract counts from query parameters
+
+  try {
+    // Fetch questions based on subject code and counts for each difficulty level
+    const easyQuestions = await Question.find({ subjectCode, questionType: 'easy' }).limit(parseInt(easyCount));
+    const mediumQuestions = await Question.find({ subjectCode, questionType: 'medium' }).limit(parseInt(mediumCount));
+    const hardQuestions = await Question.find({ subjectCode, questionType: 'hard' }).limit(parseInt(hardCount));
+
+    // Combine questions from all difficulty levels
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     const questions = {
       easy: easyQuestions,
       medium: mediumQuestions,
@@ -339,6 +425,35 @@ app.get('/questions/:subjectCode', async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
+=======
+// // Fetch Questions Route
+// app.get('/questions/:subjectCode/:date', async (req, res) => {
+//   const { subjectCode, date } = req.params;
+//   try {
+//     // Fetch questions based on subject code and date
+//     const questions = await Question.find({ subjectCode, date });
+//     res.json(questions);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: 'Failed to fetch questions' });
+//   }
+// });
+
+// // Fetch Tests Route
+// app.get('/tests/:subjectCode/:date', async (req, res) => {
+//   const { subjectCode, date } = req.params;
+//   try {
+//     // Fetch tests based on subject code and date
+//     const tests = await Test.find({ subjectCode, date });
+//     res.json(tests);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: 'Failed to fetch tests' });
+//   }
+// });
+
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 // Get Profile Route
 app.get('/api/profile', async (req, res) => {
   try {

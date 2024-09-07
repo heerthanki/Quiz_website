@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css'; // Import CSS file
-import { Link } from 'react-router-dom'; 
+
 const Profile = () => {
   const initialProfileData = {
-    name: 'Jay Ajwal',
+    name: 'Kartik Ajwal',
     dob: '1990-01-01',
     designation: 'Teacher',
-    collegeId: 'ut123',
-<<<<<<< HEAD
-    phoneNumber: '+91-9106909162',
-    email: 'Madhav@gmail.com'
+    collegeId: '123456',
+    phoneNumber: '123-456-7890',
+    email: 'kartik@example.com'
   };
-=======
-      phoneNumber: '+91-9106909162',
-      email: 'Madhav@gmail.com'
-    };
->>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 
   const [profileData, setProfileData] = useState(initialProfileData);
   const [editMode, setEditMode] = useState(false);
@@ -66,13 +60,8 @@ const Profile = () => {
   };
 
   return (
-    <div>
-    <nav className="navbar">
-    <Link to="/adminpanel" className="back-arrow">&#8592;</Link>
-    <h2>Admin Profile</h2>
-  </nav>
-  <br />
     <div className="profile-container">
+      <h2>Teacher Profile</h2>
       {editMode ? (
         <form onSubmit={handleSubmit}>
           <label>
@@ -143,7 +132,6 @@ const Profile = () => {
       {editMode && (
         <button type="button" onClick={handleCancel}>Cancel</button>
       )}
-    </div>
     </div>
   );
 };

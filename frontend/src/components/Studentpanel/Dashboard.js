@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
+=======
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 import './Dashboard.css';
 import axios from 'axios';
 import { FaUser } from 'react-icons/fa';
@@ -8,6 +11,7 @@ import { FaUser } from 'react-icons/fa';
 const Dashboard = () => {
   const [upcomingExams, setUpcomingExams] = useState([]);
   const [ongoingExams, setOngoingExams] = useState([]);
+<<<<<<< HEAD
   const navigate = useNavigate();
 
   const handleStartExam = async (subjectCode) => {
@@ -32,6 +36,9 @@ const Dashboard = () => {
   };
   
   
+=======
+
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
   useEffect(() => {
     // Fetch upcoming exams from the backend
     const fetchUpcomingExams = async () => {
@@ -69,6 +76,22 @@ const Dashboard = () => {
     const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // HH:MM format
     return `Date: ${formattedDate} Time: ${formattedTime}`;
   };
+<<<<<<< HEAD
+=======
+
+  const handleStartExam = async (subjectCode, questionType) => {
+    try {
+      // Fetch a question from the backend based on subject code and question type
+      const response = await axios.get(`http://localhost:5000/questions/${subjectCode}/${questionType}`);
+      const question = response.data;
+      console.log('Fetched question:', question);
+  
+      // Do something with the fetched question, such as displaying it in a modal or navigating to a new page
+    } catch (error) {
+      console.error('Error fetching question:', error);
+    }
+  };
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
   
   return (
     <div className="dashboard-container">
@@ -106,7 +129,11 @@ const Dashboard = () => {
               <div className="exam-card" key={exam._id}>
                 <h3>Subject Code: {exam.subjectCode}</h3>
                 <p>{formatDateTime(exam.date)}</p>
+<<<<<<< HEAD
                 <button onClick={() => handleStartExam(exam.subjectCode)}>Start Exam</button>
+=======
+                <button onClick={() => handleStartExam(exam.subjectCode, exam.easyCount, exam.mediumCount, exam.hardCount)}>Start</button>
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
               </div>
             ))
           ) : (
@@ -118,4 +145,8 @@ const Dashboard = () => {
   );
 };
 
+<<<<<<< HEAD
 export default Dashboard;
+=======
+export default Dashboard;
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f

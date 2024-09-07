@@ -9,10 +9,19 @@ const Add_test = () => {
   const [hardCount, setHardCount] = useState(0);
   const [subjectCode, setSubjectCode] = useState('');
   const [date, setDate] = useState('');
+<<<<<<< HEAD
 
   const handleSubmit = async () => {
 
     const selectedDate = new Date(date);
+=======
+  const [time, setTime] = useState('');
+
+  const handleSubmit = async () => {
+    const combinedDateTime = new Date(`${date}T${time}`);
+    
+    const selectedDate = new Date(combinedDateTime);
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     const today = new Date();
     
     // Adjust the time to start of the day (midnight) for comparison
@@ -20,6 +29,7 @@ const Add_test = () => {
     today.setHours(0, 0, 0, 0);
 
     let status = "";
+<<<<<<< HEAD
   if (selectedDate.toDateString() === today.toDateString()) {
     status = "Ongoing";
   } else if (selectedDate > today) {
@@ -37,6 +47,25 @@ const Add_test = () => {
     status: status
   };
   
+=======
+    if (selectedDate.toDateString() === today.toDateString()) {
+      status = "Ongoing";
+    } else if (selectedDate > today) {
+      status = "Upcoming";
+    } else {
+      status = "Past";
+    }
+
+    const testData = {
+      subjectCode: subjectCode,
+      date: combinedDateTime.toISOString(), // Save as ISO string
+      easyCount: easyCount,
+      mediumCount: mediumCount,
+      hardCount: hardCount,
+      status: status
+    };
+    
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     try {
       const response = await axios.post('http://localhost:5000/addtest', testData);
       if (response.data.success) {
@@ -44,9 +73,16 @@ const Add_test = () => {
         setEasyCount(0);
         setMediumCount(0);
         setHardCount(0);
+<<<<<<< HEAD
         setSubjectCode('');        
         setDate('');        
       // Redirect to Adminpanel
+=======
+        setSubjectCode('');
+        setDate('');
+        setTime('');
+        // Redirect to Adminpanel
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
         window.location.href = 'http://localhost:3000/Adminpanel';
       } else {
         window.alert('Failed to add test');
@@ -73,7 +109,15 @@ const Add_test = () => {
       setDate(selectedDate);
     }
   };
+<<<<<<< HEAD
   
+=======
+
+  const handleTimeChange = (e) => {
+    const selectedTime = e.target.value;
+    setTime(selectedTime);
+  };
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
 
   // Function to fetch questions based on subject code and date
   const fetchQuestions = async (subjectCode, date) => {
@@ -100,6 +144,7 @@ const Add_test = () => {
         <Link to="/adminpanel" className="back-arrow">&#8592;</Link>
         <h2>Add Test</h2>
       </nav>
+<<<<<<< HEAD
     <div className="add-test-container"> {/* Apply CSS class */}
       <h2>Select Questions</h2>
       <label>
@@ -130,6 +175,42 @@ const Add_test = () => {
       </label>
       <button onClick={handleSubmit}>Submit</button>      
     </div>
+=======
+      <div className="add-test-container"> {/* Apply CSS class */}
+        <h2>Select Questions</h2>
+        <label>
+          Subject Code:
+          <select value={subjectCode} onChange={(e) => setSubjectCode(e.target.value)}>
+            <option value="">Select Subject-Code</option>
+            <option value="IT345">IT345</option>
+            <option value="IT346">IT346</option>
+            <option value="IT347">IT347</option>
+            <option value="IT348">IT348</option>
+          </select>
+        </label>
+        <label>
+          Date:
+          <input type="date" value={date} onChange={handleDateChange} />
+        </label>
+        <label>
+          Time:
+          <input type="time" value={time} onChange={handleTimeChange} />
+        </label>
+        <label>
+          Easy Questions:
+          <input type="number" value={easyCount} min="0" onChange={(e) => setEasyCount(e.target.value)} />
+        </label>
+        <label>
+          Medium Questions:
+          <input type="number" value={mediumCount}  min="0" onChange={(e) => setMediumCount(e.target.value)} />
+        </label>
+        <label>
+          Hard Questions:
+          <input type="number" value={hardCount} min="0" onChange={(e) => setHardCount(e.target.value)} />
+        </label>
+        <button onClick={handleSubmit}>Submit</button>      
+      </div>
+>>>>>>> cc9b4b2423f6263b2d2614b1627a32e8ad1fdd2f
     </div>
   );
 };
