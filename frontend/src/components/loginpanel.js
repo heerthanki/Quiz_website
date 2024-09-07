@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 import './loginpanel.css';
 
-const LoginPanel = ({ setAuthToken }) => {
+const LoginPanel = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Use context to set user info globally
 
   const handleLogin = async () => {
     try {
@@ -16,14 +18,15 @@ const LoginPanel = ({ setAuthToken }) => {
         password
       });
       if (response.data.success) {
-
-        // Assuming your backend returns a user type field
-        const userType = response.data.userType;
-
+        // Update UserContext
+      setUser({
+        username: response.data.username,
+        userType: response.data.userType
+      });
         // Navigate based on user type
-        if (userType === 'teacher') {
+        if (response.data.userType === 'teacher') {
           navigate('/adminpanel');
-        } else if (userType === 'student') {
+        } else if (response.data.userType === 'student') {
           navigate('/studentpanel/dashboard');
         } else {
           setErrorMessage('Invalid user type');
@@ -42,11 +45,19 @@ const LoginPanel = ({ setAuthToken }) => {
       <h2>Login Panel</h2>
       <div>
         <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
       </div>
       <div>
         <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
       <div>
         <button onClick={handleLogin}>Login</button>

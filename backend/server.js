@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -69,7 +67,7 @@ const testSchema = new mongoose.Schema({
   subjectCode: {
     type: String,
     required: true,
-    enum: ['IT345', 'IT346', 'IT347', 'IT348'] // Assuming these are your subject codes
+    enum: ['IT345', 'IT346', 'IT347', 'IT348']
   },
   date: {
     type: Date,
@@ -132,10 +130,66 @@ const profileSchema = new mongoose.Schema({
 
 const Profile = mongoose.model('Profile', profileSchema);
 
+// Define exam result schema
+const examResultSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true
+  },
+  subjectCode: {
+    type: String,
+    required: true,
+    enum: ['IT345', 'IT346', 'IT347', 'IT348']
+  },
+  date: {
+    type: Date,
+    required: true
+  },
+  score: {
+    type: Number,
+    required: true
+  },
+  total: {
+    type: Number,
+    required: true
+  },
+  answers: {
+    type: Map,
+    of: Number,
+    required: true
+  }
+});
+
+const ExamResult = mongoose.model('ExamResult', examResultSchema);
+
+// Add route to submit exam results
+app.post('/api/submit-exam', async (req, res) => {
+  const { username, subjectCode, date, score, total, answers } = req.body;
+
+  try {
+    const newExamResult = new ExamResult({
+      username,
+      subjectCode,
+      date,
+      score,
+      total,
+      answers
+    });
+
+    await newExamResult.save();
+    res.json({ success: true, message: 'Exam result submitted successfully' });
+  } catch (error) {
+    console.error('Error submitting exam result:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit exam result' });
+  }
+});
+
+
+
 // Predefined subjects
 const predefinedSubjects = ['MAD', 'DevOps', 'CN', 'CRNS'];
 
-// Login Route
+// Login Route (Updated)
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -145,16 +199,14 @@ app.post('/login', async (req, res) => {
       return res.json({ success: false, message: 'User not found' });
     }
 
-    // Check if passwords match
     if (password !== user.password) {
       return res.json({ success: false, message: 'Invalid password' });
     }
 
-    // Navigate based on user type
     if (user.userType === 'student') {
-      res.json({ success: true, message: 'Login successful', userType: 'student' });
+      res.json({ success: true, message: 'Login successful', userType: 'student', username: user.username });
     } else if (user.userType === 'teacher') {
-      res.json({ success: true, message: 'Login successful', userType: 'teacher' });
+      res.json({ success: true, message: 'Login successful', userType: 'teacher', username: user.username });
     } else {
       res.json({ success: false, message: 'Invalid user type' });
     }
@@ -169,18 +221,17 @@ app.post('/addquestion', async (req, res) => {
   const { question, options, correctOptionIndex, questionType, subject, subjectCode } = req.body;
   console.log("Received request to add question:", req.body);
   try {
-    // Check if subject is predefined
     if (!predefinedSubjects.includes(subject)) {
       return res.status(400).json({ success: false, message: 'Invalid subject' });
     }
 
     const newQuestion = new Question({
-      question: question,
-      options: options,
-      correctOptionIndex: correctOptionIndex,
-      questionType: questionType,
-      subject: subject,
-      subjectCode: subjectCode
+      question,
+      options,
+      correctOptionIndex,
+      questionType,
+      subject,
+      subjectCode
     });
 
     await newQuestion.save();
@@ -196,27 +247,22 @@ app.post('/addtest', async (req, res) => {
   const { subjectCode, date, easyCount, mediumCount, hardCount } = req.body;
   console.log("Received request to add test:", req.body);
   try {
-    // Create a new Test document
     const newTest = new Test({
-      subjectCode: subjectCode,
-      date: date,
+      subjectCode,
+      date,
       EasyCount: easyCount,
       MediumCount: mediumCount,
       HardCount: hardCount
     });
 
-    // Check if the selected date is today or in the future
     const today = new Date();
     const selectedDate = new Date(date);
     if (selectedDate.toDateString() === today.toDateString()) {
-      // If the selected date is today, set the test status to "Ongoing"
       newTest.status = "Ongoing";
     } else {
-      // If the selected date is in the future, set the test status to "Upcoming"
       newTest.status = "Upcoming";
     }
 
-    // Save the new test to the database
     await newTest.save();
     res.json({ success: true, message: 'Test added successfully' });
   } catch (error) {
@@ -228,7 +274,7 @@ app.post('/addtest', async (req, res) => {
 // Fetch upcoming exams route
 app.get('/tests/Upcoming', async (req, res) => {
   try {
-    const upcomingExams = await Test.find({ status: 'Upcoming' }).select(' subjectCode date');
+    const upcomingExams = await Test.find({ status: 'Upcoming' }).select('subjectCode date');
     res.json(upcomingExams);
   } catch (error) {
     console.error('Error fetching upcoming exams:', error);
@@ -239,7 +285,7 @@ app.get('/tests/Upcoming', async (req, res) => {
 // Fetch ongoing exams route
 app.get('/tests/Ongoing', async (req, res) => {
   try {
-    const ongoingExams = await Test.find({ status: 'Ongoing' }).select(' subjectCode date');
+    const ongoingExams = await Test.find({ status: 'Ongoing' }).select('subjectCode date');
     res.json(ongoingExams);
   } catch (error) {
     console.error('Error fetching ongoing exams:', error);
@@ -247,18 +293,39 @@ app.get('/tests/Ongoing', async (req, res) => {
   }
 });
 
-// Fetch questions route
-app.get('/questions/:subjectCode', async (req, res) => {
+// Fetch test details by subject code
+app.get('/tests/:subjectCode', async (req, res) => {
   const { subjectCode } = req.params;
-  const { easyCount, mediumCount, hardCount } = req.query; // Extract counts from query parameters
 
   try {
-    // Fetch questions based on subject code and counts for each difficulty level
-    const easyQuestions = await Question.find({ subjectCode, questionType: 'easy' }).limit(parseInt(easyCount));
-    const mediumQuestions = await Question.find({ subjectCode, questionType: 'medium' }).limit(parseInt(mediumCount));
-    const hardQuestions = await Question.find({ subjectCode, questionType: 'hard' }).limit(parseInt(hardCount));
+    const test = await Test.findOne({ subjectCode });
+    if (!test) {
+      return res.status(404).json({ success: false, message: 'Test not found' });
+    }
 
-    // Combine questions from all difficulty levels
+    res.json(test);
+  } catch (error) {
+    console.error('Error fetching test:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch test' });
+  }
+});
+
+// Fetch questions based on counts from the test
+app.get('/questions/:subjectCode', async (req, res) => {
+  const { subjectCode } = req.params;
+
+  try {
+    const test = await Test.findOne({ subjectCode });
+    if (!test) {
+      return res.status(404).json({ success: false, message: 'Test not found' });
+    }
+
+    const { EasyCount, MediumCount, HardCount } = test;
+
+    const easyQuestions = await Question.find({ subjectCode, questionType: 'easy' }).limit(EasyCount);
+    const mediumQuestions = await Question.find({ subjectCode, questionType: 'medium' }).limit(MediumCount);
+    const hardQuestions = await Question.find({ subjectCode, questionType: 'hard' }).limit(HardCount);
+
     const questions = {
       easy: easyQuestions,
       medium: mediumQuestions,
@@ -271,32 +338,6 @@ app.get('/questions/:subjectCode', async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to fetch questions' });
   }
 });
-
-// // Fetch Questions Route
-// app.get('/questions/:subjectCode/:date', async (req, res) => {
-//   const { subjectCode, date } = req.params;
-//   try {
-//     // Fetch questions based on subject code and date
-//     const questions = await Question.find({ subjectCode, date });
-//     res.json(questions);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, message: 'Failed to fetch questions' });
-//   }
-// });
-
-// // Fetch Tests Route
-// app.get('/tests/:subjectCode/:date', async (req, res) => {
-//   const { subjectCode, date } = req.params;
-//   try {
-//     // Fetch tests based on subject code and date
-//     const tests = await Test.find({ subjectCode, date });
-//     res.json(tests);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, message: 'Failed to fetch tests' });
-//   }
-// });
 
 // Get Profile Route
 app.get('/api/profile', async (req, res) => {
